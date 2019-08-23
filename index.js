@@ -165,7 +165,6 @@ function clickMessage() { //форма- кнопка
 						
 						break;
 					}
-					
 					if (couples[arrayKey][k] != lastCouplesK && couples[arrayKey][k] != lastCouplesK2 ){
 						message+= "<li>";
 						exceptions.push(couples[arrayKey][k]);
@@ -174,8 +173,6 @@ function clickMessage() { //форма- кнопка
 						lastCouplesK = couples[arrayKey][k];
 						lastCouplesK2 = couples[arrayKey][k-1];
 						message+= "</li>";
-						
-						
 						break;
 					}
 				}
