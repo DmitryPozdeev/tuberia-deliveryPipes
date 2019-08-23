@@ -6,7 +6,6 @@ const carsNorms = { // нормы машин
 var innerDiamPN16;//внутренний диаметр
 var maxDiamPN16;//внешний диаметр
 var pipes; //виды труб
-var listI;
 function fillPipes() { //заполнение диаметров
 	innerDiamPN16 = {
 		90: 84.0,
@@ -46,7 +45,7 @@ function fillPipes() { //заполнение диаметров
 	}
 }
 
-pipes = { // добавление видов труб
+pipes = { // добавление видов труб и их количества
 	90: 1, 
 	110: 1, 
 	125: 1, 
@@ -65,11 +64,11 @@ pipes = { // добавление видов труб
 	800: 1,
 };
 fillPipes();
-var couples = [];// труба в трубе, пары
+
 var message;//Итоговый текст, выводимый на экран
-const list = document.querySelector("#list"); // Список диаметров труб и выбора их количества
+const list = document.querySelector("#list"); // Список диаметров труб и выбора их количества для пользователя
 for(let pipe in pipes){ list.innerHTML += "<li>" + pipe + "<input value='" + pipes[pipe] +"'>" + "</li>"; } //вывод list 
-var listValues = document.querySelectorAll("#list li input");// значения
+var listValues = document.querySelectorAll("#list li input");// значения в input
 for (let i = 0; i < listValues.length; i++) { //отправка формы при нажатии enter
 	listValues[i].addEventListener("keyup", function(event) {
 	event.preventDefault();
@@ -102,91 +101,33 @@ function Car(ninety, hun10, hun25, hun40, hun60, twoHun, // еще в разра
 	this.sevenHun10 = sevenHun10;
 	this.eightHun = eightHun;
 }
-
-function clickMessage() { //форма- кнопка
-	var exceptions = []; // все исключения. нужны для исключения использованных диаметров труб в результате
-	listI = 0;
-	for(let pipe in pipes){ //Ввод всех значений с поля input в pipes
+function memorize(){ // требуется для запоминания введенных значений
+	var listI = 0; 
+	for(let pipe in pipes){ 
 		pipes[pipe] = listValues[listI].value;
 		listI++;
 	}
-	for (let pipe in pipes){ //Удаление неиспользуемых диаметров
-		if (pipes[pipe] == 0) {
-			delete maxDiamPN16[pipe];
-			delete innerDiamPN16[pipe];
+}
+
+
+function clickMessage() { //форма- кнопка
+	memorize();
+	var pipeBalance = [];// труба в трубе, пары
+	//var exceptions = [];
+	for (let key in pipes){
+		if (pipes[key]>0) {
+			pipeBalance.push(key);
+		}
+		pipes[key]--;
+	}
+	console.log(pipeBalance);
+	console.log(pipes);
+	for (let key = pipeBalance.length; key != 0; key--){
+		console.log(pipes[key]);
+	}
+	for (let key in pipeBalance){
+		if (pipes[key]>0){
+
 		}
 	}
-	message = "Результат: <ul>";	
-	var lastCouplesK, lastCouplesK2; //требуется для непрерывной цепочки
-	var arrayKey = 0;
-	couples = [];
-	for(; true; arrayKey++) {
-		exceptions = [...new Set(exceptions)];
-		if (arrayKey>2 && couples[arrayKey].join() == couples[arrayKey-1].join()) {
-			//for(index in exceptions){message+= "<li>" + exceptions[index] + "</li>";}
-			break;
-		}
-		
-		
-		//if (couples[arrayKey-2] == couples[arrayKey-1] && couples.length>2){break}
-		//console.log(couples[arrayKey-1]);
-		//console.log(couples[arrayKey-2]);
-		
-		
-		couples.push([]);
-
-		for (var key in pipes){ if(pipes[key] != 0 ){ couples[arrayKey].push(key); } }
-		if(couples.length!=1 && couples[arrayKey]!= couples[arrayKey-1]){
-			
-			couples[arrayKey] = couples[arrayKey].filter(
-				function(e) {return this.indexOf(e) < 0;},exceptions);
-				message+= "</ul><ul>";
-		} 
-		
-		
-		var i = 0;
-		var k = 0;
-		
-		for (var key in maxDiamPN16) {
-			if ( !couples[arrayKey][i] ){ break; }
-
-			if (arrayKey>1 && couples[arrayKey].join() == couples[arrayKey-1].join()) {
-				//for(index in exceptions){message+= "<li>" + exceptions[index] + "</li>";}
-				break;
-			}
-			
-			if (couples[arrayKey]== couples[arrayKey-1]) {
-				break;
-			}
-			for(var key2 in innerDiamPN16){
-				if (!couples[arrayKey][k]){break;}
-				if (maxDiamPN16[key] + 5 < innerDiamPN16[key2]){
-					if (couples[arrayKey][i]!=lastCouplesK && i >=1){
-						
-						break;
-					}
-					if (couples[arrayKey][k] != lastCouplesK && couples[arrayKey][k] != lastCouplesK2 ){
-						message+= "<li>";
-						exceptions.push(couples[arrayKey][k]);
-						exceptions.push(couples[arrayKey][i]);
-						message += couples[arrayKey][i] + " в " + couples[arrayKey][k] + "<br>";
-						lastCouplesK = couples[arrayKey][k];
-						lastCouplesK2 = couples[arrayKey][k-1];
-						message+= "</li>";
-						break;
-					}
-				}
-				k++;
-			}
-			i++;
-			k = 0;
-			
-			
-		out.innerHTML = message ;
-		
-		}
-		
-	};
-	fillPipes();
-	
 }
