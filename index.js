@@ -104,27 +104,44 @@ function Car(ninety, hun10, hun25, hun40, hun60, twoHun, // еще в разра
 function memorize(){ // требуется для запоминания введенных значений
 	var listI = 0; 
 	for(let pipe in pipes){ 
-		pipes[pipe] = listValues[listI].value;
+		pipes[pipe] = +listValues[listI].value;
 		listI++;
 	}
 }
 
-
-function clickMessage() { //форма- кнопка
-	memorize();
-	var pipeBalance = [];// труба в трубе, пары
-	//var exceptions = [];
-	for (let key in pipes){
-		if (pipes[key]>0) {
-			pipeBalance.push(key);
+function pipeMatching(){
+	var pipeMatch = [];
+		for(var key in maxDiamPN16){
+			for(var key2 in innerDiamPN16){
+				if(maxDiamPN16[key] + 5 < innerDiamPN16[key2]){
+					pipeMatch.push(`${key} in ${key2}`);
+				}
+			}
 		}
-		pipes[key]--;
+		console.log(pipeMatch);
+}
+pipeMatching();
+
+function getPipesBalance(array){
+	for (let key in pipes){
+		if (pipes[key]>0 ) {
+			array.push(key);
+			pipes[key]--;
+		}
+		
 	}
+	return array;
+}
+function clickMessage() { //форма- кнопка
+	var pipeBalance = [];
+	
+	memorize();
+	//var exceptions = [];
+	getPipesBalance(pipeBalance);
+	
 	console.log(pipeBalance);
 	console.log(pipes);
-	for (let key = pipeBalance.length; key != 0; key--){
-		console.log(pipes[key]);
-	}
+
 	for (let key in pipeBalance){
 		if (pipes[key]>0){
 
