@@ -129,7 +129,7 @@ function pipeClickMatching(list, pipeM){
 			}
 		}
 		
-	}
+	} 
 }
 
 function getPipesBalance(array){
