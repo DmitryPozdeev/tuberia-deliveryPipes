@@ -108,19 +108,29 @@ function memorize(){ // требуется для запоминания вве�
 		listI++;
 	}
 }
-
-function pipeMatching(){
-	var pipeMatch = [];
-		for(var key in maxDiamPN16){
-			for(var key2 in innerDiamPN16){
-				if(maxDiamPN16[key] + 5 < innerDiamPN16[key2]){
-					pipeMatch.push(`${key} in ${key2}`);
-				}
+var pipeMatch = [];
+function pipeMatching(list){
+	for(var key in maxDiamPN16){
+		for(var key2 in innerDiamPN16){
+			if(maxDiamPN16[key] + 5 < innerDiamPN16[key2]){
+				list.push(`${key} in ${key2}`);
 			}
 		}
-		console.log(pipeMatch);
+	}
 }
-pipeMatching();
+pipeMatching(pipeMatch);
+
+function pipeClickMatching(list, pipeM){
+	for (let el = 0; el < list.length; el++) {
+		for (let i = 0; i < pipeM.length; i++) {
+			console.log();
+			if (`${list[el]} in ${list[i+1]}` == pipeM[i]){
+				console.log(`${list[el]} in ${list[el+1]}` );
+			}
+		}
+		
+	}
+}
 
 function getPipesBalance(array){
 	for (let key in pipes){
@@ -138,7 +148,7 @@ function clickMessage() { //форма- кнопка
 	memorize();
 	//var exceptions = [];
 	getPipesBalance(pipeBalance);
-	
+	pipeClickMatching(pipeBalance,pipeMatch);
 	console.log(pipeBalance);
 	console.log(pipes);
 
