@@ -142,6 +142,13 @@ function getPipesBalance(array){
 	}
 	return array;
 }
+function getAreaPipes(array) {
+	var areaPipesLength = Math.floor(carsNorms.length / 5.95);
+	for (let i = 0; i < array.length; i++) {
+
+		
+	}
+}
 function clickMessage() { //форма- кнопка
 	var pipeBalance = [];
 	
@@ -149,12 +156,12 @@ function clickMessage() { //форма- кнопка
 	//var exceptions = [];
 	getPipesBalance(pipeBalance);
 	pipeClickMatching(pipeBalance,pipeMatch);
+	getAreaPipes(pipeBalance);
 	console.log(pipeBalance);
 	console.log(pipes);
 
 	for (let key in pipeBalance){
 		if (pipes[key]>0){
-
 		}
 	}
 }
