@@ -1,4 +1,4 @@
-const carsNorms = { // нормы машин
+var carsNorms = { // нормы машин
 	length: 13.6,
 	width: 2.45,
 	height: 2.7,
@@ -123,7 +123,6 @@ pipeMatching(pipeMatch);
 function pipeClickMatching(list, pipeM){
 	for (let el = 0; el < list.length; el++) {
 		for (let i = 0; i < pipeM.length; i++) {
-			console.log();
 			if (`${list[el]} in ${list[i+1]}` == pipeM[i]){
 				console.log(`${list[el]} in ${list[el+1]}` );
 			}
@@ -133,19 +132,33 @@ function pipeClickMatching(list, pipeM){
 }
 
 function getPipesBalance(array){
+	console.log(pipes);
+	var areaPipesLength = Math.floor(carsNorms.length / 5.95); //столько труб помещается вдлину
+	console.log(areaPipesLength);
 	for (let key in pipes){
 		if (pipes[key]>0 ) {
 			array.push(key);
-			pipes[key]--;
+			
 		}
 		
 	}
-	return array;
-}
-function getAreaPipes(array) {
-	var areaPipesLength = Math.floor(carsNorms.length / 5.95);
-	for (let i = 0; i < array.length; i++) {
-
+	array = array.reverse();
+	
+	for (let i = 0; i < array.length; ) {
+		if (pipes[array[i]] > 0){
+			for (var key in array) {
+				if(pipeMatch.some(elem => elem == array[i]+" in "+array[key]) && array[i] != undefined && array[key] != undefined){
+					console.log(array[i]+" in "+array[key]);
+				}
+			}
+			
+			pipes[array[i]]-=1;
+			console.log(pipes[array[i]]);
+		} else {
+			i+=1;
+			
+		}
+			
 		
 	}
 }
@@ -153,10 +166,11 @@ function clickMessage() { //форма- кнопка
 	var pipeBalance = [];
 	
 	memorize();
-	//var exceptions = [];
 	getPipesBalance(pipeBalance);
+	//var exceptions = [];
+	
 	pipeClickMatching(pipeBalance,pipeMatch);
-	getAreaPipes(pipeBalance);
+	
 	console.log(pipeBalance);
 	console.log(pipes);
 
