@@ -132,23 +132,29 @@ function pipeClickMatching(list, pipeM){
 }
 
 function getPipesBalance(array){
+	
 	console.log(pipes);
 	var areaPipesLength = Math.floor(carsNorms.length / 5.95); //столько труб помещается вдлину
 	console.log(areaPipesLength);
 	for (let key in pipes){
 		if (pipes[key]>0 ) {
-			array.push(key);
-			
+			array.push(key);	
 		}
-		
 	}
 	array = array.reverse();
-	
-	for (let i = 0; i < array.length; ) {
-		if (pipes[array[i]] > 0){
+	console.log(array);
+	var endOfPipeArray = array[0];
+	for (let i = -1; i <= array.length; ) {
+		if (pipes[array[i]]>0){
+			console.log("f"+array[i])
 			for (var key in array) {
-				if(pipeMatch.some(elem => elem == array[i]+" in "+array[key]) && array[i] != undefined && array[key] != undefined){
-					console.log(array[i]+" in "+array[key]);
+				if(pipeMatch.some(elem => elem == array[i]+" in "+array[key])  && array[key] != undefined){
+						console.log(endOfPipeArray+"  " + array[i]);
+						if (endOfPipeArray == array[i]){
+							console.log(array[i]+" in "+array[key]);
+						}
+				} else {
+					
 				}
 			}
 			
@@ -156,19 +162,17 @@ function getPipesBalance(array){
 			console.log(pipes[array[i]]);
 		} else {
 			i+=1;
-			
 		}
-			
-		
 	}
 }
-function clickMessage() { //форма- кнопка
+function clickMessage() {
+	console.clear();
 	var pipeBalance = [];
 	
 	memorize();
 	getPipesBalance(pipeBalance);
 	//var exceptions = [];
-	
+	console.log(pipeBalance);
 	pipeClickMatching(pipeBalance,pipeMatch);
 	
 	console.log(pipeBalance);
