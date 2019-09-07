@@ -120,49 +120,87 @@ function pipeMatching(list){
 }
 pipeMatching(pipeMatch);
 
-function pipeClickMatching(list, pipeM){
-	for (let el = 0; el < list.length; el++) {
-		for (let i = 0; i < pipeM.length; i++) {
-			if (`${list[el]} in ${list[i+1]}` == pipeM[i]){
-				console.log(`${list[el]} in ${list[el+1]}` );
-			}
-		}
+// function pipeClickMatching(list, pipeM){
+// 	for (let el = 0; el < list.length; el++) {
+// 		for (let i = 0; i < pipeM.length; i++) {
+// 			if (`${list[el]} in ${list[i+1]}` == pipeM[i]){
+// 				console.log(`${list[el]} in ${list[el+1]}` );
+// 			}
+// 		}
 		
-	} 
-}
+// 	} 
+// }
 
 function getPipesBalance(array){
-	
-	console.log(pipes);
-	var areaPipesLength = Math.floor(carsNorms.length / 5.95); //столько труб помещается вдлину
-	console.log(areaPipesLength);
 	for (let key in pipes){
 		if (pipes[key]>0 ) {
 			array.push(key);	
 		}
 	}
-	array = array.reverse();
-	console.log(array);
-	var endOfPipeArray = array[0];
+	return array = array.reverse();
+	
+	
+}
+var oldObjectPipesValues;
+var lastPipe;
+var startPipe;
+function pipeArrays(array){
+	oldObjectPipesValues = Object.values(pipes);
+
+	for(pipe in array){
+		
+		if(pipes[array[pipe]]>0){
+			lastPipe = array[pipe];
+			//console.log(pipes[array[pipe]]);
+			break;
+		}
+	}
+	pipes[lastPipe]-=1;
+	
+	
 	for (let i = -1; i <= array.length; ) {
-		if (pipes[array[i]]>0){
-			console.log("f"+array[i])
+		
+		if (pipes[array[i]] > 0 && lastPipe != array[i]){
+			//console.log(lastPipe);
 			for (var key in array) {
 				if(pipeMatch.some(elem => elem == array[i]+" in "+array[key])  && array[key] != undefined){
-						console.log(endOfPipeArray+"  " + array[i]);
-						if (endOfPipeArray == array[i]){
-							console.log(array[i]+" in "+array[key]);
-						}
-				} else {
-					
+					if (lastPipe == array[key]) {
+						console.log(array[i] + " in " + lastPipe);
+						lastPipe = array[i];
+						
+						break;
+					}
 				}
 			}
+			if (lastPipe==array[i]) {
+				pipes[array[i]]-=1;
+			} else {
+				i++;
+			}
 			
-			pipes[array[i]]-=1;
-			console.log(pipes[array[i]]);
+			
+
 		} else {
 			i+=1;
+			
 		}
+		
+	}
+	
+	if(Object.values(pipes).some( el => el > 0)  ){
+		
+		if (oldObjectPipesValues && oldObjectPipesValues.join() == Object.values(pipes).join()){
+			
+			
+		}else{
+			oldObjectPipesValues = Object.values(pipes);
+			console.log(" ");
+			console.log(pipes);
+			console.log(" ");
+			//console.log(oldObjectPipesValues.join()+" "+Object.values(pipes).join());
+			 pipeArrays(array);
+		}
+		
 	}
 }
 function clickMessage() {
@@ -170,16 +208,15 @@ function clickMessage() {
 	var pipeBalance = [];
 	
 	memorize();
-	getPipesBalance(pipeBalance);
+	var finalPipeBalance = getPipesBalance(pipeBalance);
+	pipeArrays(finalPipeBalance);
 	//var exceptions = [];
-	console.log(pipeBalance);
-	pipeClickMatching(pipeBalance,pipeMatch);
-	
-	console.log(pipeBalance);
-	console.log(pipes);
+	//console.log(pipes);
+	// pipeClickMatching(pipeBalance,pipeMatch);
+	//console.log(pipeMatch);
 
 	for (let key in pipeBalance){
 		if (pipes[key]>0){
 		}
 	}
-}
+} 
