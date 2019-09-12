@@ -4,6 +4,7 @@ html{
     /*background: linear-gradient(to top left, powderblue, pink);*/
     font-size: 18px; 
 }
+
 body {
     display: flex;
     padding: 10px;
@@ -56,3 +57,12 @@ body {
     /* right: 5px; */
     /* top: 0; */
 }
+.hide{
+    display: none;
+}
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+  }

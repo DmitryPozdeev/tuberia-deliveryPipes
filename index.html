@@ -8,9 +8,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Доставка труб</title>
     <link rel="stylesheet" href="style.css">
+    <script src="vue.js"></script>
     
 </head>
 <body>
+         
     <div id="inputForm">
         <ul id="list">
 
@@ -19,10 +21,37 @@
         <button id="click" onclick="clickMessage()">Click</button>
     </div>
     <div id="output">
-        <h4 id="info"></h4>
+        <div id="info"></div>
         <div id = "outField"></div>
     </div>
+    <!-- <div id="app">
+        <button class="open-btn" @click="open = !open">Открыть</button>
+        <ul :class="{ hide: open}">
+            <li>Hello</li>
+            <li>Hello</li>
+            <li>Hello</li>
+            <li>Hello</li>
+            <li>Hello</li>
+            <li>Hello</li>
+            <li>Hello</li>
+            <li>Hello</li>
+            <li>Hello</li>
+        </ul>
+    </div> -->
     <script src="index.js"></script>
+    <script>
+        
+        new Vue({
+            el: '#app',
+            data(){
+                return {
+                    open: true
+                }
+            }
+        });
+    </script>
+    
+    <!-- <script src="vuejs.js"></script> -->
     
 </body>
 </html>

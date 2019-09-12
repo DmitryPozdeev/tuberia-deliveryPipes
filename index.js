@@ -143,11 +143,13 @@ function getPipesBalance(array) {
 var oldObjectPipesValues;
 var lastPipe;
 var startPipe;
-
+var message = [];
+var messageCount = -1;
 function pipeArrays(array) {
+	messageCount+=1;
 	oldObjectPipesValues = Object.values(pipes);
 	array = getPipesBalance(array);
-	console.log(array);
+	message.push([]);
 	for (pipe in array) {
 		if (pipes[array[pipe]] > 0) {
 			lastPipe = array[pipe];
@@ -162,6 +164,7 @@ function pipeArrays(array) {
 			for (var key in array) {
 				if (pipeMatch.some(elem => elem == array[i] + " in " + array[key]) && array[key] != undefined) {
 					if (lastPipe == array[key]) {
+						message[messageCount].push(array[i] + " in " + lastPipe);
 						console.log(array[i] + " in " + lastPipe);
 						lastPipe = array[i];
 						break;
@@ -190,6 +193,7 @@ function pipeArrays(array) {
 				//console.log(getPipesBalance(array));
 				//console.log(Array.from(oldObjectPipesValues).reduce(function(a,b){return(a+b)})+ ' ' + (Array.from(Object.values(pipes)).reduce(function(a,b){return(a+b)})+1));
 				oldObjectPipesValues = Object.values(pipes);
+				
 				pipeArrays(array);
 				console.log(" ");
 			}
@@ -197,8 +201,17 @@ function pipeArrays(array) {
 		}
 	}
 }
-
+function showhide(n)
+{
+  if (document.getElementById('otd'+n).style.display=='inline')
+    document.getElementById('otd'+n).style.display='none';
+  else
+    document.getElementById('otd'+n).style.display='inline';
+  return false;
+}
+var messageOutPipes;
 function clickMessage() { 
+	messageOutPipes = "";
 	outputAllPipes = [];
 	console.clear();
 	
@@ -215,10 +228,31 @@ function clickMessage() {
 		if (pipes[key] > 0) {}
 	}
 	//
-	
+	message.forEach(element => {
+		// messageOutPipes += '<button class="open-btn" @click="open = !open">Открыть</button><ul :class="{ hide: open}">';
+		messageOutPipes += '<ul>';
+		element.reverse().forEach(function(item, i) {
+			messageOutPipes += '<li>'+item+'</li> ';
+		});
+		messageOutPipes += '';
+		 messageOutPipes += '</ul>';
+	});
 	outGeneralInfo.innerHTML = `<ul>
 	<li>Общее количество труб:  ${outputAllPipes.reduce(function(a,b){return(a+b)})}</li>
 	<li>Суммарная длина всех труб: ${(outputAllPipes.reduce(function(a,b){return(a+b)})*5.95).toFixed(2)}м</li>
-	</ul>`;
-	console.log(Object.values(pipes));
+	</ul> 
+	`;
+	out.innerHTML = `${messageOutPipes}`;
+	// new Vue({
+	// 	el: '#outField',
+	// 	data(){
+	// 		return {
+	// 			open: true
+	// 		}
+	// 	}
+	// });
+		
+	
+	//messageCount = 0;
+	//console.log(Object.values(pipes));
 }
