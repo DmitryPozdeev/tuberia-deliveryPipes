@@ -10,7 +10,7 @@ console.log(carsNorms.pipeQuantityInLength);
 var innerDiamPN16; //внутренний диаметр
 var maxDiamPN16; //внешний диаметр
 var pipes; //виды труб
-
+var quantityOfLastPipes = [];
 
 function fillPipes() { //заполнение диаметров
 	innerDiamPN16 = {
@@ -51,22 +51,22 @@ function fillPipes() { //заполнение диаметров
 	};
 }
 pipes = { // добавление видов труб и их количества
-	90: 1,
-	110: 1,
-	125: 1,
-	140: 1,
-	160: 1,
-	200: 1,
-	225: 1,
-	250: 1,
-	315: 1,
-	355: 1,
-	400: 1,
-	450: 1,
-	500: 1,
-	630: 1,
-	710: 1,
-	800: 1,
+	90: 0,
+	110: 0,
+	125: 0,
+	140: 0,
+	160: 1417,
+	200: 0,
+	225: 0,
+	250: 1243,
+	315: 629,
+	355: 0,
+	400: 0,
+	450: 0,
+	500: 1106,
+	630: 0,
+	710: 0,
+	800: 0,
 };
 fillPipes();
 var message; //Итоговый текст, выводимый на экран
@@ -116,11 +116,12 @@ function getPipesBalance(array) {
 	}
 	return array = array.reverse();
 }
+
 var oldObjectPipesValues;
 var lastPipe;
 var startPipe;
 var message = [];
-var messageCount = -1;
+var messageCount;
 function pipeArrays(array) {
 	messageCount+=1;
 	oldObjectPipesValues = Object.values(pipes);
@@ -140,6 +141,7 @@ function pipeArrays(array) {
 					if (lastPipe == array[key]) {
 						message[messageCount].push(array[i] + " in " + lastPipe);
 						console.log(array[i] + " in " + lastPipe);
+						
 						lastPipe = array[i];
 						break;
 					}
@@ -167,22 +169,27 @@ function pipeArrays(array) {
 				
 				pipeArrays(array);
 				console.log(" ");
+				
 			}
 		}
 	}
 }
 function quantityOfCars(array, obj, normsObj){
-	
+	console.log(`pipeBalance: ${array}; pipes: ${JSON.stringify(obj)}; carsNorms$ ${JSON.stringify(normsObj)}`);
 }
 
 var messageOutPipes;
 function clickMessage() { 
 	messageOutPipes = "";
+	messageCount = -1;
+	message = [];
+	quantityOfLastPipes = [];
 	outputAllPipes = [];
 	console.clear();
 	
 	var pipeBalance = [];
 	memorize();
+	quantityOfCars(getPipesBalance(pipeBalance), pipes, carsNorms);
 	for (let key in pipes) {
 		if (pipes[key] > 0) {
 			outputAllPipes.push((pipes[key]));
@@ -192,7 +199,11 @@ function clickMessage() {
 	for (let key in pipeBalance) {
 		if (pipes[key] > 0) {}
 	}
-	
+	for(pipe in pipes){
+		if (pipes[pipe] > 0){
+			quantityOfLastPipes.push(` ${pipe}: ${pipes[pipe]}`);
+		}
+	}
 	message.forEach(element => {
 		messageOutPipes += '<ul>';
 		element.reverse().forEach(function(item, i) {
@@ -204,7 +215,9 @@ function clickMessage() {
 	outGeneralInfo.innerHTML = `<ul>
 	<li>Общее количество труб:  ${outputAllPipes.reduce(function(a,b){return(a+b)})}</li>
 	<li>Суммарная длина всех труб: ${(outputAllPipes.reduce(function(a,b){return(a+b)})*5.95).toFixed(2)}м</li>
+	<li>Осталось: ${quantityOfLastPipes}</li>
 	</ul> 
 	`;
 	out.innerHTML = `${messageOutPipes}`;
+	quantityOfCars(getPipesBalance(pipeBalance), pipes, carsNorms);
 }
