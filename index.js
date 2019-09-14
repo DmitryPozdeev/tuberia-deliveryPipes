@@ -2,7 +2,11 @@ var carsNorms = { // нормы машин
 	length: 13.6,
 	width: 2.45,
 	height: 2.7,
+	pipeLength: 5.95,
+	pipeQuantityInLength: null
 };
+ carsNorms.pipeQuantityInLength = +(carsNorms.length / carsNorms.pipeLength).toFixed(0);
+console.log(carsNorms.pipeQuantityInLength);
 var innerDiamPN16; //внутренний диаметр
 var maxDiamPN16; //внешний диаметр
 var pipes; //виды труб
@@ -26,7 +30,7 @@ function fillPipes() { //заполнение диаметров
 		630: 595.8,
 		710: 671.4,
 		800: 757.8
-	}
+	};
 	maxDiamPN16 = {
 		90: 117,
 		110: 140,
@@ -44,7 +48,7 @@ function fillPipes() { //заполнение диаметров
 		630: 734,
 		710: 815,
 		800: 925
-	}
+	};
 }
 pipes = { // добавление видов труб и их количества
 	90: 1,
@@ -82,25 +86,6 @@ for (let i = 0; i < listValues.length; i++) { //отправка формы пр
 const out = document.querySelector("#outField"); //поле вывода
 const outGeneralInfo = document.querySelector("#info");
 
-function Car(ninety, hun10, hun25, hun40, hun60, twoHun, // еще в разработке
-	twoHun25, twoHun50, threeHun15, threeHun55, fourHun, fourHun50, fiveHun, sixHun30, sevenHun10, eightHun) {
-	this.ninety = ninety;
-	this.hun10 = hun10;
-	this.hun25 = hun25;
-	this.hun40 = hun40;
-	this.hun60 = hun60;
-	this.twoHun = twoHun;
-	this.twoHun25 = twoHun25;
-	this.twoHun50 = twoHun50;
-	this.threeHun15 = threeHun15;
-	this.threeHun55 = threeHun55;
-	this.fourHun = fourHun;
-	this.fourHun50 = fourHun50;
-	this.fiveHun = fiveHun;
-	this.sixHun30 = sixHun30;
-	this.sevenHun10 = sevenHun10;
-	this.eightHun = eightHun;
-}
 var outputAllPipes=[];
 
 function memorize() { // требуется для запоминания введенных значений
@@ -122,15 +107,6 @@ function pipeMatching(list) {
 	}
 }
 pipeMatching(pipeMatch);
-// function pipeClickMatching(list, pipeM){
-// 	for (let el = 0; el < list.length; el++) {
-// 		for (let i = 0; i < pipeM.length; i++) {
-// 			if (`${list[el]} in ${list[i+1]}` == pipeM[i]){
-// 				console.log(`${list[el]} in ${list[el+1]}` );
-// 			}
-// 		}
-// 	} 
-// }
 function getPipesBalance(array) {
 	array = [];
 	for (let key in pipes) {
@@ -153,14 +129,12 @@ function pipeArrays(array) {
 	for (pipe in array) {
 		if (pipes[array[pipe]] > 0) {
 			lastPipe = array[pipe];
-			//console.log(pipes[array[pipe]]);
 			break;
 		}
 	}
 	pipes[lastPipe] -= 1;
 	for (let i = -1; i <= array.length;) {
 		if (pipes[array[i]] > 0 && lastPipe != array[i]) {
-			//console.log(lastPipe);
 			for (var key in array) {
 				if (pipeMatch.some(elem => elem == array[i] + " in " + array[key]) && array[key] != undefined) {
 					if (lastPipe == array[key]) {
@@ -187,28 +161,20 @@ function pipeArrays(array) {
 				}) - (Array.from(Object.values(pipes)).reduce(function(a, b) {
 					return (a + b)
 				}) + 1) == 0) {
-				//console.log(Array.from(oldObjectPipesValues).reduce(function(a,b){return(a+b)})+ '+' + (Array.from(Object.values(pipes)).reduce(function(a,b){return(a+b)})+1));
 				pipes[array[0]]++;
 			} else {
-				//console.log(getPipesBalance(array));
-				//console.log(Array.from(oldObjectPipesValues).reduce(function(a,b){return(a+b)})+ ' ' + (Array.from(Object.values(pipes)).reduce(function(a,b){return(a+b)})+1));
 				oldObjectPipesValues = Object.values(pipes);
 				
 				pipeArrays(array);
 				console.log(" ");
 			}
-			//console.log(oldObjectPipesValues.join()+" "+Object.values(pipes).join());
 		}
 	}
 }
-function showhide(n)
-{
-  if (document.getElementById('otd'+n).style.display=='inline')
-    document.getElementById('otd'+n).style.display='none';
-  else
-    document.getElementById('otd'+n).style.display='inline';
-  return false;
+function quantityOfCars(array, obj, normsObj){
+	
 }
+
 var messageOutPipes;
 function clickMessage() { 
 	messageOutPipes = "";
@@ -222,14 +188,12 @@ function clickMessage() {
 			outputAllPipes.push((pipes[key]));
 		}
 	}
-	//var finalPipeBalance = getPipesBalance(pipeBalance);
 	pipeArrays(getPipesBalance(pipeBalance));
 	for (let key in pipeBalance) {
 		if (pipes[key] > 0) {}
 	}
-	//
+	
 	message.forEach(element => {
-		// messageOutPipes += '<button class="open-btn" @click="open = !open">Открыть</button><ul :class="{ hide: open}">';
 		messageOutPipes += '<ul>';
 		element.reverse().forEach(function(item, i) {
 			messageOutPipes += '<li>'+item+'</li> ';
@@ -243,16 +207,4 @@ function clickMessage() {
 	</ul> 
 	`;
 	out.innerHTML = `${messageOutPipes}`;
-	// new Vue({
-	// 	el: '#outField',
-	// 	data(){
-	// 		return {
-	// 			open: true
-	// 		}
-	// 	}
-	// });
-		
-	
-	//messageCount = 0;
-	//console.log(Object.values(pipes));
 }
