@@ -2,6 +2,7 @@ var carsNorms = { // нормы машин
 	length: 13.6,
 	width: 2.45,
 	height: 2.7,
+	onePipeLength: 5.95
 };
 var innerDiamPN16; //внутренний диаметр
 var maxDiamPN16; //внешний диаметр
@@ -82,25 +83,6 @@ for (let i = 0; i < listValues.length; i++) { //отправка формы пр
 const out = document.querySelector("#outField"); //поле вывода
 const outGeneralInfo = document.querySelector("#info");
 
-function Car(ninety, hun10, hun25, hun40, hun60, twoHun, // еще в разработке
-	twoHun25, twoHun50, threeHun15, threeHun55, fourHun, fourHun50, fiveHun, sixHun30, sevenHun10, eightHun) {
-	this.ninety = ninety;
-	this.hun10 = hun10;
-	this.hun25 = hun25;
-	this.hun40 = hun40;
-	this.hun60 = hun60;
-	this.twoHun = twoHun;
-	this.twoHun25 = twoHun25;
-	this.twoHun50 = twoHun50;
-	this.threeHun15 = threeHun15;
-	this.threeHun55 = threeHun55;
-	this.fourHun = fourHun;
-	this.fourHun50 = fourHun50;
-	this.fiveHun = fiveHun;
-	this.sixHun30 = sixHun30;
-	this.sevenHun10 = sevenHun10;
-	this.eightHun = eightHun;
-}
 var outputAllPipes=[];
 
 function memorize() { // требуется для запоминания введенных значений
@@ -208,6 +190,9 @@ function showhide(n)
   else
     document.getElementById('otd'+n).style.display='inline';
   return false;
+}
+function quantityOfCars(array, obj, normsObj){
+
 }
 var messageOutPipes;
 function clickMessage() { 
