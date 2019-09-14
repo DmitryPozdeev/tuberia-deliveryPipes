@@ -2,15 +2,17 @@
 <html lang="en">
 <head>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="css/reset.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Доставка труб</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="vue.js"></script>
     
 </head>
 <body>
+         
     <div id="inputForm">
         <ul id="list">
 
@@ -19,9 +21,37 @@
         <button id="click" onclick="clickMessage()">Click</button>
     </div>
     <div id="output">
-        <p id = "outField"></p>
+        <div id="info"></div>
+        <div id = "outField"></div>
     </div>
+    <!-- <div id="app">
+        <button class="open-btn" @click="open = !open">Открыть</button>
+        <ul :class="{ hide: open}">
+            <li>Hello</li>
+            <li>Hello</li>
+            <li>Hello</li>
+            <li>Hello</li>
+            <li>Hello</li>
+            <li>Hello</li>
+            <li>Hello</li>
+            <li>Hello</li>
+            <li>Hello</li>
+        </ul>
+    </div> -->
     <script src="index.js"></script>
+    <script>
+        
+        // new Vue({
+        //     el: '#app',
+        //     data(){
+        //         return {
+        //             open: true
+        //         }
+        //     }
+        // });
+    </script>
+    
+    <!-- <script src="vuejs.js"></script> -->
     
 </body>
 </html>
