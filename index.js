@@ -5,6 +5,9 @@ var carsNorms = { // нормы машин
 	pipeLength: 5.95,
 	pipeQuantityInLength: null
 };
+function quantityOfCars(array, obj, normsObj){
+	console.log(`pipeBalance: ${array}; pipes: ${JSON.stringify(obj)}; carsNorms$ ${JSON.stringify(normsObj)}`);
+}
  carsNorms.pipeQuantityInLength = +(carsNorms.length / carsNorms.pipeLength).toFixed(0);
 console.log(carsNorms.pipeQuantityInLength);
 var innerDiamPN16; //внутренний диаметр
@@ -72,7 +75,7 @@ fillPipes();
 var message; //Итоговый текст, выводимый на экран
 const list = document.querySelector("#list"); // Список диаметров труб и выбора их количества для пользователя
 for (let pipe in pipes) {
-	list.innerHTML += "<li>" + pipe + "<input value='" + pipes[pipe] + "'>" + "</li>";
+	list.innerHTML += `<li>${pipe}<input value='${pipes[pipe]}'> ${pipes[pipe]*5.95}</li>`;
 } //вывод list 
 var listValues = document.querySelectorAll("#list li input"); // значения в input
 for (let i = 0; i < listValues.length; i++) { //отправка формы при нажатии enter
@@ -97,12 +100,11 @@ function memorize() { // требуется для запоминания вве
 }
 var pipeMatch = [];
 
-
 function pipeMatching(list) {
 	for (var key in maxDiamPN16) {
 		for (var key2 in innerDiamPN16) {
 			if (maxDiamPN16[key] + 5 < innerDiamPN16[key2]) {
-				list.push(`${key} in ${key2}`);
+				list.push(`${key} в ${key2}`);
 			}
 		}
 	}
@@ -112,12 +114,12 @@ function getPipesBalance(array) {
 	array = [];
 	for (let key in pipes) {
 		if (pipes[key] > 0) {
-
 			array.push(key);
 		}
 	}
 	return array = array.reverse();
 }
+
 var oldObjectPipesValues;
 var lastPipe;
 var startPipe;
@@ -138,11 +140,9 @@ function pipeArrays(array) {
 	for (let i = -1; i <= array.length;) {
 		if (pipes[array[i]] > 0 && lastPipe != array[i]) {
 			for (var key in array) {
-				if (pipeMatch.some(elem => elem == array[i] + " in " + array[key]) && array[key] != undefined) {
+				if (pipeMatch.some(elem => elem == array[i] + " в " + array[key]) && array[key] != undefined) {
 					if (lastPipe == array[key]) {
-						message[messageCount].push(array[i] + " in " + lastPipe);
-						console.log(array[i] + " in " + lastPipe);
-						
+						message[messageCount].push(array[i] + " в " + lastPipe);
 						lastPipe = array[i];
 						break;
 					}
@@ -169,56 +169,84 @@ function pipeArrays(array) {
 				oldObjectPipesValues = Object.values(pipes);
 				
 				pipeArrays(array);
-				console.log(" ");
-				
 			}
 		}
 	}
 }
-function quantityOfCars(array, obj, normsObj){
-	console.log(`pipeBalance: ${array}; pipes: ${JSON.stringify(obj)}; carsNorms$ ${JSON.stringify(normsObj)}`);
-}
 
+function sameElements(arr) {
+	let arrToRecord = [];
+	for(i in arr){
+		if (arrToRecord[arr[i]]!=undefined) {
+			(arrToRecord[arr[i]]++)
+		}
+		else {
+			(arrToRecord[arr[i]]=1)
+		}
+
+	}
+	return arrToRecord;
+}
+var messageOutPipes2 = [];
 var messageOutPipes;
+var pipeBalance;
 function clickMessage() { 
+	console.clear();
+	messageOutPipes2 = [];
 	messageOutPipes = "";
 	messageCount = -1;
 	message = [];
 	quantityOfLastPipes = [];
 	outputAllPipes = [];
-	console.clear();
-	
-	var pipeBalance = [];
+	pipeBalance = [];
+
 	memorize();
-	quantityOfCars(getPipesBalance(pipeBalance), pipes, carsNorms);
 	for (let key in pipes) {
 		if (pipes[key] > 0) {
 			outputAllPipes.push((pipes[key]));
 		}
 	}
 	pipeArrays(getPipesBalance(pipeBalance));
-	for (let key in pipeBalance) {
-		if (pipes[key] > 0) {}
-	}
+
 	for(pipe in pipes){
 		if (pipes[pipe] > 0){
 			quantityOfLastPipes.push(` ${pipe}: ${pipes[pipe]}`);
 		}
 	}
-	message.forEach(element => {
-		messageOutPipes += '<ul>';
-		element.reverse().forEach(function(item, i) {
-			messageOutPipes += '<li>'+item+'</li> ';
-		});
-		messageOutPipes += '';
-		 messageOutPipes += '</ul>';
-	});
+	
+	
 	outGeneralInfo.innerHTML = `<ul>
 	<li>Общее количество труб:  ${outputAllPipes.reduce(function(a,b){return(a+b)})}</li>
 	<li>Суммарная длина всех труб: ${(outputAllPipes.reduce(function(a,b){return(a+b)})*5.95).toFixed(2)}м</li>
 	<li>Осталось: ${quantityOfLastPipes}</li>
 	</ul> 
 	`;
-	out.innerHTML = `${messageOutPipes}`;
-	quantityOfCars(getPipesBalance(pipeBalance), pipes, carsNorms);
+	message.forEach(element => {
+		element.reverse().forEach(function(item, i) {
+			messageOutPipes += '<li>'+item+'</li> ';
+		});
+		messageOutPipes += '';
+		messageOutPipes += 'p';
+	});
+	//.split(' ').filter(function (el) {return el != null;})
+	messageOutPipes = sameElements(messageOutPipes.split("p"));
+	
+	for (var key in messageOutPipes) {
+		messageOutPipes2.push(
+			key.replace(/<li>/g,"")
+				.replace(/<\/li>/g,"")
+				.replace( /\s/g, " ")
+				.replace(/в/g,"")
+				.split(' ')
+				.filter(n => n)
+				.filter(function(value, index, _this) {
+					if(index!=this.length-1){
+					return _this.indexOf(value) === index;}
+				}).join(" в ") + ": " + messageOutPipes[key]);
+	}
+	messageOutPipes2 = messageOutPipes2.filter(function(el)
+	{ if(el.split(":")[0] != ""){return el}  });
+	out.innerHTML = messageOutPipes2.join("<br>");
+	console.log("Ok");
+	//quantityOfCars(getPipesBalance(pipeBalance), pipes, carsNorms);
 }
