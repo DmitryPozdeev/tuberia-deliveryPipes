@@ -1,6 +1,6 @@
 html {
   height: all;
-  background: radial-gradient(at top, #FEFFFF, #A7CECC);
+  background: blanchedalmond;
   /*background: linear-gradient(to top left, powderblue, pink);*/
   font-size: 18px;
 }
@@ -14,7 +14,6 @@ body {
   max-width: 900px;
   margin: 0 auto;
   background: initial;
-  display: -webkit-flex;
   -ms-flex-pack: distribute;
       justify-content: space-around;
   -ms-flex-wrap: wrap;
@@ -31,24 +30,38 @@ body {
   width: 350px;
 }
 
+#inputForm ul span.pipe {
+  width: 40px;
+  text-align: center;
+}
+
+#inputForm ul span.pipeLength {
+  min-width: 85px;
+  margin-right: 0;
+  text-align: right;
+}
+
 #inputForm ul li {
   max-width: 200px;
   padding: 3px;
-  display: -ms-grid;
-  display: grid;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 #inputForm ul input {
   position: relative;
   margin-right: 0;
   font-size: 17px;
-  max-width: 50px;
+  min-width: 50px;
+  width: 60px;
+  max-width: 80px;
   border-radius: 4px;
   border: 1px solid #cccccc;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   -khtml-border-radius: 3px;
-  background: #ffffff !important;
+  background: ghostwhite !important;
   outline: none;
   color: black;
   padding: 1.5px;
@@ -66,10 +79,46 @@ body {
   top: 0;
 }
 
+#output #info li {
+  margin: 5px 0;
+  background: ghostwhite;
+  padding: 5px;
+  border-radius: 3px;
+}
+
+#output #info .messageOutPipes {
+  margin: 7px 0;
+  background: ghostwhite;
+  padding: 7px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  min-width: 350px;
+  border-radius: 3px;
+}
+
+#output #info .messageOutPipes p {
+  margin-bottom: 3px;
+}
+
 #output #outField ul {
-  margin-bottom: 5px;
-  border: 2px solid red;
-  max-width: 300px;
+  margin: 5px;
+  background: ghostwhite;
+  border-radius: 3px;
+  max-width: 350px;
   text-align: center;
+  padding: 3px;
+}
+
+#output #outField ul li {
+  display: none;
+}
+
+#output #outField ul:hover {
+  background: radial-gradient(at top, #FEFFFF, #A7CECC);
+}
+
+#output #outField ul:hover li {
+  display: inherit;
+  position: relative;
 }
 /*# sourceMappingURL=style.css.map */

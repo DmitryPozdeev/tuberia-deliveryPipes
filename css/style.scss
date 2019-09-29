@@ -1,7 +1,10 @@
 $grey: #cccccc;
+$white: ghostwhite;
+$bcGradient: radial-gradient(at top, #FEFFFF, #A7CECC); 
+$widthForList: 350px;
 html{
     height: all;
-    background: radial-gradient(at top, #FEFFFF, #A7CECC);
+    background: blanchedalmond;
     /*background: linear-gradient(to top left, powderblue, pink);*/
     font-size: 18px; 
 }
@@ -12,8 +15,6 @@ body {
     max-width: 900px;
     margin: 0 auto;
     background: initial;
-    display: -webkit-flex; 
-    -webkit-justify-content: space-around;
     justify-content: space-around;
     flex-wrap: wrap;
 }
@@ -25,22 +26,33 @@ body {
     /* max-width: 200px; */
     ul {
         width: 350px;
+        span.pipe{
+            width: 40px;
+            text-align: center
+        }
+        span.pipeLength{
+            min-width: 85px;
+            margin-right: 0;
+            text-align: right;
+        }
         li{
             max-width: 200px;
             padding: 3px;
-            display: grid;
+            display: flex;
         }
         input {
             position: relative;
             margin-right: 0;
             font-size: 17px; 
-            max-width: 50px;
+            min-width: 50px;
+            width: 60px;
+            max-width: 80px;
             border-radius: 4px;
             border: 1px solid $grey; 
             -webkit-border-radius: 3px;
             -moz-border-radius: 3px;
             -khtml-border-radius: 3px; 
-            background: #ffffff !important; 
+            background: $white !important; 
             outline: none;
             color: black; 
             padding: 1.5px;
@@ -54,16 +66,48 @@ body {
 
 #output{
     display: block;
-    width: 350px;
+    width: $widthForList;
     right: 5px; 
     top: 0; 
+    #info {
+        li{
+            margin: 5px 0;
+            background: $white;
+            padding: 5px;
+            border-radius: 3px;
+        }
+        .messageOutPipes{
+            margin: 7px 0;
+            background: $white;
+            padding: 7px;
+            box-sizing: border-box;
+            min-width: $widthForList;
+            border-radius: 3px;
+
+            p{
+                margin-bottom: 3px;
+            }
+        }
+    }
     #outField {
         ul{
-            margin-bottom: 5px;
-            border: 2px solid red;
-            max-width: 300px;
+            margin: 5px;
+            background: $white;
+
+            border-radius: 3px;
+            max-width: $widthForList;
             text-align: center;
-            
+            padding: 3px;
+            li{
+                display: none;
+            }
+        }
+        ul:hover{
+            background: $bcGradient;
+            li{
+                display: inherit;
+                position: relative;
+            }
         }
     }
 }
