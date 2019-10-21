@@ -1,8 +1,13 @@
+@charset "UTF-8";
 html {
+  font-family: 'Montserrat', sans-serif;
   height: all;
-  background: blanchedalmond;
+  background: #F7F7F7;
   /*background: linear-gradient(to top left, powderblue, pink);*/
-  font-size: 18px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  color: #212121;
 }
 
 body {
@@ -11,7 +16,7 @@ body {
   display: -ms-flexbox;
   display: flex;
   padding: 10px;
-  max-width: 900px;
+  max-width: 1100px;
   margin: 0 auto;
   background: initial;
   -ms-flex-pack: distribute;
@@ -20,104 +25,150 @@ body {
       flex-wrap: wrap;
 }
 
-#inputForm {
-  max-width: 350px;
+.right-pos {
+  height: 20px;
+  position: fixed;
+  right: 0;
+}
+
+#main {
+  width: 1200px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+}
+
+#main #inputForm {
+  max-width: 550px;
   min-width: 250px;
-  /* max-width: 200px; */
 }
 
-#inputForm ul {
-  width: 350px;
+#main #inputForm .button {
+  margin-top: 32px;
+  margin-left: 2px;
+  background: #006fb7;
+  color: #ffffff;
+  border: none;
+  font-size: 16px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  /* убирать выделение текста */
+  padding: 0 40px;
+  height: 40px;
+  outline: none;
+  /* убирать контур в Mozilla */
 }
 
-#inputForm ul span.pipe {
-  width: 40px;
-  text-align: center;
+#main #inputForm .button:hover {
+  background: #42637d;
+  cursor: pointer;
 }
 
-#inputForm ul span.pipeLength {
+#main #inputForm p {
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  margin-bottom: 14px;
+}
+
+#main #inputForm ul .pipe {
+  margin-right: 50px;
+  text-align: left;
+  min-width: 265px;
+}
+
+#main #inputForm ul span.pipeLength {
   min-width: 85px;
   margin-right: 0;
   text-align: right;
 }
 
-#inputForm ul li {
-  max-width: 200px;
+#main #inputForm ul li {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  max-width: 550px;
   padding: 3px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
 }
 
-#inputForm ul input {
+#main #inputForm ul input {
+  font-family: 'Montserrat', sans-serif;
   position: relative;
-  margin-right: 0;
+  margin-right: 25px;
+  margin-left: 25px;
   font-size: 17px;
-  min-width: 50px;
-  width: 60px;
-  max-width: 80px;
+  width: 100px;
+  height: 40px;
+  text-align: center;
   border-radius: 4px;
   border: 1px solid #cccccc;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -khtml-border-radius: 3px;
-  background: ghostwhite !important;
+  background: #FFFFFF !important;
   outline: none;
-  color: black;
+  color: #212121;
   padding: 1.5px;
 }
 
-#click {
-  margin: 0 auto;
-  display: block;
-}
-
-#output {
+#main #output {
   display: block;
   width: 350px;
   right: 5px;
   top: 0;
 }
 
-#output #info li {
-  margin: 5px 0;
-  background: ghostwhite;
-  padding: 5px;
+#main #output #info {
+  margin-top: 50px;
+}
+
+#main #output #info li {
+  padding: 15px;
+  margin: 10px 0;
+  background: #FFFFFF;
+  -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+          box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+  border-radius: 5px;
   border-radius: 3px;
 }
 
-#output #info .messageOutPipes {
-  margin: 7px 0;
-  background: ghostwhite;
-  padding: 7px;
+#main #output #info .messageOutPipes {
+  background: #FFFFFF;
+  -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+          box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+  border-radius: 5px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   min-width: 350px;
   border-radius: 3px;
 }
 
-#output #info .messageOutPipes p {
-  margin-bottom: 3px;
+#main #output #info .messageOutPipes p {
+  margin-top: 15px;
+  padding-left: 15px;
 }
 
-#output #outField ul {
-  margin: 5px;
-  background: ghostwhite;
+#main #output #outField ul {
+  margin: 10px 0;
+  background: #FFFFFF;
+  -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+          box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+  border-radius: 5px;
   border-radius: 3px;
   max-width: 350px;
   text-align: center;
   padding: 3px;
 }
 
-#output #outField ul li {
-  display: none;
-}
-
-#output #outField ul:hover {
-  background: radial-gradient(at top, #FEFFFF, #A7CECC);
-}
-
-#output #outField ul:hover li {
+#main #output #outField ul li {
   display: inherit;
   position: relative;
 }

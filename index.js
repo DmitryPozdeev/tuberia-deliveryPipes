@@ -12,7 +12,6 @@ const carsNorms = { // нормы машин
     area() {
         return this.width * this.height;
     },
-    pipeQuantityInLength: null,
 };
 const pipesNorms = {
     90: 1148,
@@ -32,12 +31,15 @@ const pipesNorms = {
     710: 20,
     800: 16,
 };
-carsNorms.pipeQuantityInLength = +(carsNorms.length / carsNorms.pipeLength)
-    .toFixed(0);
 let innerDiamPN16; // внутренний диаметр
 let maxDiamPN16; // внешний диаметр
 let pipes; // виды труб
 let quantityOfLastPipes = [];
+let oldObjectPipesValues;
+let lastPipe;
+let startPipe;
+let message = []; // Итоговый текст, выводимый на экран
+let messageCount;
 // eslint-disable-next-line require-jsdoc
 function fillPipes() { // заполнение диаметров
     innerDiamPN16 = {
@@ -66,7 +68,7 @@ function fillPipes() { // заполнение диаметров
         160: 197,
         200: 243,
         225: 271,
-        250: 301,
+        250: 301,//301
         315: 374,
         355: 419,
         400: 472,
@@ -80,49 +82,48 @@ function fillPipes() { // заполнение диаметров
 // eslint-disable-next-line prefer-const
 pipes = { // добавление видов труб и их количества
     90: 0,
-    110: 0,
-    125: 0,
-    140: 0,
-    160: 1417,
-    200: 0,
-    225: 0,
-    250: 1243,
-    315: 629,
-    355: 0,
-    400: 0,
-    450: 0,
-    500: 1106,
-    630: 0,
-    710: 0,
-    800: 0,
+	110: 0,
+	125: 0,
+	140: 0,
+	160: 1417,
+	200: 0,
+	225: 0,
+	250: 1243,
+	315: 629,
+	355: 0,
+	400: 0,
+	450: 0,
+	500: 1106,
+	630: 0,
+	710: 0,
+	800: 0,
 };
 fillPipes();
 function replacer(el) {
+    if (el.value.indexOf("0") == 0) {
+        el.value = '';
+    }
     el.value = el.value.replace(/[^0-9]/g, '');
+    let el2 = el.closest("li");
+    el2 = el2.querySelector(".pipeLength");
+    el2.innerHTML = (el.value*5.95).toFixed(2)+" м";
 }
 
 const list = document.querySelector('#list'); // Список диаметров труб и выбора их количества для пользователя
 for (const pipe in pipes) {
     list.innerHTML += `<li>
-          <span class="pipe">${pipe}</span>
-          <input oninput="replacer(this)" v-model="message" placeholder="0" value='${pipes[pipe]}'>
-          <span class="pipeLength">${pipes[pipe] * 5.95}м</span>
+          <span class="pipe">Труба ПВХ-О ${pipe} мм класс 500 PN16</span>
+          <input oninput="replacer(this)" v-model="message" placeholder="0" value='${pipes[pipe] == 0 ? "" : pipes[pipe]}' >труб
+          <span class="pipeLength">${(pipes[pipe] * 5.95).toFixed(2)} м</span>
           </li>`;
-} // вывод list
-const listValues = document
-    .querySelectorAll('#list li input'); // значения в input
+} // вывод list 
+const listValues = document.querySelectorAll('#list li input'); // значения в input
+
 // eslint-disable-next-line max-len
 for (let i = 0; i < listValues.length; i += 1) { // отправка формы при нажатии enter
     listValues[i].addEventListener('keyup', (event) => {
         event.preventDefault();
-        /* if (event.isComposing || event.keyCode !== 13){
-            for (let pipe in pipes) {
-                list.innerHTML += `<li>${pipe}
-                <input value='${pipes[pipe]}'>
-                ${pipes[pipe]*5.95}м</li>`;
-            } //вывод list
-         } */
-
+        //document.getElementById('result').innerHTML = input.value;
         if (event.isComposing || event.keyCode === 13) {
             document.getElementById('click').click();
         }
@@ -163,12 +164,9 @@ function getPipesBalance(array) {
     return array;
 }
 
-let oldObjectPipesValues;
-let lastPipe;
-let startPipe;
-let message = []; // Итоговый текст, выводимый на экран
-let messageCount;
+ 
 function pipeArrays(array) {
+    
     messageCount += 1;
     oldObjectPipesValues = Object.values(pipes);
     array = getPipesBalance(array);
@@ -180,7 +178,6 @@ function pipeArrays(array) {
         }
     }
     pipes[lastPipe] -= 1;
-
     for (let i = -1; i <= array.length;) {
         if (pipes[array[i]] > 0 && lastPipe !== array[i]) {
             for (const key in array) {
@@ -227,11 +224,13 @@ function sameElements(arr) {
     }
     return arrToRecord;
 }
+let outGenInfo = "";
 let messageOutPipes2 = [];
 let messageOutPipes;
 let pipeBalance;
 let arrayInCars;
 let areaOfCars;
+var percentage = 0;
 let carQuantity = 0;
 let messageOutCars = [
     [/* Список телескопируемых труб */],
@@ -243,7 +242,7 @@ function test() {
     messageOutCars[3] = areaOfCars;
     let j = 0;
     for (const key in messageOutCars[3][0]) {
-        if (messageOutCars[3][1][key] >= pipesNorms[messageOutCars[3][0][key]]) {
+        //if (messageOutCars[3][1][key] >= pipesNorms[messageOutCars[3][0][key]]) {
             if (messageOutPipes2[key]) {
                 messageOutCars[0][j] = messageOutPipes2[key].split(':').splice(0, 1).join(); // долбавление матрешки каждой трубы
                 messageOutCars[1].push(messageOutCars[3][1][key]);// добавление количества труб
@@ -271,26 +270,31 @@ function test() {
                 carQuantity += messageOutCars[2][key];
                 j += 1;
             }
-        }
+        //}
     }
-    console.log(messageOutCars);
-    console.log('Выход из теста');
+
+    for(let i = 0; i < messageOutCars[3][0].length; i++){
+        if (messageOutCars[3][0]!== undefined && messageOutCars[1][i] !== undefined){
+            console.log(percentage + " " + messageOutCars[1][i] + " " + pipesNorms[messageOutCars[3][0][i]]);
+            percentage += messageOutCars[1][i]/pipesNorms[messageOutCars[3][0][i]];
+        } 
+        
+        
+    }
+    
 }
+
 function quantityOfCars(array, array2) {
     arrayInCars = [];
-    areaOfCars = [[], [], []];
+    areaOfCars = [[], []];
 
     for (const key in array) {
         areaOfCars[0][areaOfCars[0].length] = +array[key].split(':').splice(0, 1).join().split(' в ')
             .pop();
         areaOfCars[1][areaOfCars[1].length] = +array[key].split(':').splice(1, 1).join();
-        areaOfCars[2].push(maxDiamPN16[areaOfCars[0][key]] ** 2);
+        
     }
     for (const key2 in array2) {
-        /* console.log(array2[key2].split(":").splice(0,1).join().split().pop());
-         arrayInCars[0].push(array2[key2].split(":").splice(0,1).join().split().pop());
-         messageOutCars[0][areaOfCars[0].length] = +array2[key2].split(":")
-        .splice(0,1).join().split().pop(); */
         areaOfCars[0][areaOfCars[0].length] = +(array2[key2]
             .split(':')
             .splice(0, 1)
@@ -298,24 +302,34 @@ function quantityOfCars(array, array2) {
             .split()
             .pop());
         areaOfCars[1][areaOfCars[1].length] = +(array2[key2].split(':').splice(1, 1));
-        areaOfCars[2].push(
-            maxDiamPN16[areaOfCars[0][areaOfCars[0].length - 1]] ** 2,
-        ); // Площадь диаметра
+        
     }
     test(areaOfCars);
 }
 function speechTest(messageOutCarsForFN) {
     if (messageOutCarsForFN === 1) {
         return 'полная фура';
-    } if (messageOutCarsForFN === 2 || messageOutCarsForFN === 3) {
+    } if (messageOutCarsForFN >= 2 && messageOutCarsForFN <= 4) {
         return 'полные фуры';
     }
     return 'полных фур';
 }
+function speechTest2(messageOutCarsForFN) {
+    if (messageOutCarsForFN === 1) {
+        return 'фура';
+    } if (messageOutCarsForFN >= 2 && messageOutCarsForFN <= 4) {
+        return 'фуры';
+    }
+    return 'фур';
+}
+var infoForOut = "";
 function clickMessage() {
+    outGenInfo = "";// Сброс при повторном вызове
+    percentage = 0;
+    infoForOut = "";
     carQuantity = 0;
     console.clear();
-    messageOutCars = [[], [], [], []];// Сброс при повторном вызове
+    messageOutCars = [[], [], [], []];
     messageOutPipes2 = [];
     messageOutPipes = '';
     messageCount = -1;
@@ -346,8 +360,6 @@ function clickMessage() {
         messageOutPipes += '';
         messageOutPipes += 'p';
     });
-
-    // .split(' ').filter(function (el) {return el != null;})
     messageOutPipes = sameElements(messageOutPipes.split('p'));
 
     for (const key in messageOutPipes) {
@@ -366,36 +378,49 @@ function clickMessage() {
                 })
                 .join(' в ')}: ${messageOutPipes[key]}`,
         );
-    }
+    };
+    
     messageOutPipes2 = messageOutPipes2.filter((el) => {
         if (el.split(':')[0] !== '') {
             return el;
         }
         return 0;
     });
-
+    
     quantityOfCars(messageOutPipes2, quantityOfLastPipes);
-    outGeneralInfo.innerHTML = `<ul>
-      <li>Общее количество труб:  ${outputAllPipes.reduce((a, b) => (a + b))}</li>
-      <li>Общее количество фур: ${carQuantity}</li>
-      <li>Суммарная длина всех труб: ${(outputAllPipes.reduce((a, b) => (a + b)) * 5.95).toFixed(2)}м</li>
-      <div class="messageOutPipes"><p>Все телескопируемые трубы: </p>${messageOutPipes2.join('<br>')}</div>
-      <li>Осталось не телескопированным: <br>
-      ${quantityOfLastPipes} труб</li>
-      </ul> 
-      `;
-
+    outGenInfo += `<ul>
+    <li>Общее количество труб:  ${outputAllPipes.reduce((a, b) => (a + b))}</li>
+    <li>Общее количество фур: ${carQuantity + Math.ceil(percentage)}</li>
+    <li>Суммарная длина всех труб: ${(outputAllPipes.reduce((a, b) => (a + b)) * 5.95).toFixed(2)}м</li>
+    <div class="messageOutPipes"><li>Все телескопируемые трубы: <p>${messageOutPipes2.join('<br>')}</p></li></div>
+    `
+    if(quantityOfLastPipes[0] !== undefined){
+        outGenInfo+=`<li>Осталось не телескопированным: <br>
+        ${quantityOfLastPipes} труб</li>
+        </ul> `;
+    }
+    outGeneralInfo.innerHTML = outGenInfo;
+    
+    
     messageOutCars[0].forEach((item, i) => {
-        out.innerHTML += `<ul>Матрешка ${item} 
-        <li>${messageOutCars[2][i]} ${speechTest(messageOutCars[2][i])} 
-        комплектация по ${pipesNorms[messageOutCars[3][0][i]]} труб</li> 
-        </ul>`;
+        if(messageOutCars[2][i] !== 0){
+            infoForOut += `<ul>${item} 
+            <li>${messageOutCars[2][i]} ${speechTest(messageOutCars[2][i])} 
+            по ${pipesNorms[messageOutCars[3][0][i]]} труб</li> 
+            </ul>`;
+        }
+        
     });
-    out.innerHTML += `<ul>Excess<li>${messageOutCars[0]}</li>
-      <li>${messageOutCars[1]}</li>
-      <li>${messageOutCars[2]}</li>
-      </ul>
-      `;
+    if(percentage!==percentage){
+        console.log("Ok");
+    }
+    if (Math.ceil(percentage) != 0){
+        infoForOut+=`<ul>Оставшиеся трубы занимают ${Math.ceil(percentage)} ${speechTest2(Math.ceil(percentage))}`;
+        for (let i = 0; i < messageOutCars[0].length; i++) {
+            infoForOut+= ` <li>${messageOutCars[0][i]} - x${messageOutCars[1][i]}</li>`
+        }
+    }
+    
+    out.innerHTML += infoForOut + `</ul>`;
     console.log('Ok');
-    // quantityOfCars(getPipesBalance(pipeBalance), pipes, carsNorms);
 }

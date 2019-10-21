@@ -1,113 +1,183 @@
 $grey: #cccccc;
-$white: ghostwhite;
+$white: #FFFFFF;
+$soft-blue: #bce4fe;
+$blue: #006fb7;
+$bc: #F7F7F7;
 $bcGradient: radial-gradient(at top, #FEFFFF, #A7CECC); 
 $widthForList: 350px;
+$black:#212121;
 html{
+    font-family: 'Montserrat', sans-serif;
     height: all;
-    background: blanchedalmond;
+    background: $bc;
     /*background: linear-gradient(to top left, powderblue, pink);*/
-    font-size: 18px; 
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: $black;
 }
 body {
     min-height: 100vh;
     display: flex;
     padding: 10px;
-    max-width: 900px;
+    max-width: 1100px;
     margin: 0 auto;
     background: initial;
     justify-content: space-around;
     flex-wrap: wrap;
+    
 }
 
-
-#inputForm{
-    max-width: 350px;
-    min-width: 250px;
-    /* max-width: 200px; */
-    ul {
-        width: 350px;
-        span.pipe{
-            width: 40px;
-            text-align: center
-        }
-        span.pipeLength{
-            min-width: 85px;
-            margin-right: 0;
-            text-align: right;
-        }
-        li{
-            max-width: 200px;
-            padding: 3px;
-            display: flex;
-        }
-        input {
-            position: relative;
-            margin-right: 0;
-            font-size: 17px; 
-            min-width: 50px;
-            width: 60px;
-            max-width: 80px;
-            border-radius: 4px;
-            border: 1px solid $grey; 
-            -webkit-border-radius: 3px;
-            -moz-border-radius: 3px;
-            -khtml-border-radius: 3px; 
-            background: $white !important; 
-            outline: none;
-            color: black; 
-            padding: 1.5px;
-        }
+    .right-pos{
+        height: 20px;
+        position: fixed;
+        right: 0;
+        // select{
+        //     background: $blue;
+        //     color: #ffffff;
+        //     border: none;
+        //     font-size: 16px;
+        //     user-select: none; /* убирать выделение текста */
+        //     padding: 0 40px;
+        //     height: 40px;
+        //     outline: none; /* убирать контур в Mozilla */
+        //     &:hover{
+        //         background: #42637d;
+        //         cursor: pointer;
+        //     }
+        // }
+        
+          
     }
-}
-#click{
-    margin: 0 auto;
-    display: block;
-}
 
-#output{
-    display: block;
-    width: $widthForList;
-    right: 5px; 
-    top: 0; 
-    #info {
-        li{
-            margin: 5px 0;
-            background: $white;
-            padding: 5px;
-            border-radius: 3px;
-        }
-        .messageOutPipes{
-            margin: 7px 0;
-            background: $white;
-            padding: 7px;
-            box-sizing: border-box;
-            min-width: $widthForList;
-            border-radius: 3px;
+#main{
+    //margin-top: 50px;
+    width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
 
-            p{
-                margin-bottom: 3px;
+    #inputForm{
+        .button{
+            margin-top: 32px;
+            margin-left: 2px;
+            background: $blue;
+            color: #ffffff;
+            border: none;
+            font-size: 16px;
+            user-select: none; /* убирать выделение текста */
+            padding: 0 40px;
+            height: 40px;
+            outline: none; /* убирать контур в Mozilla */
+            &:hover{
+                background: #42637d;
+                cursor: pointer;
             }
         }
-    }
-    #outField {
-        ul{
-            margin: 5px;
-            background: $white;
-
-            border-radius: 3px;
-            max-width: $widthForList;
-            text-align: center;
-            padding: 3px;
-            li{
-                display: none;
-            }
+        max-width: 550px;
+        min-width: 250px;
+        p{
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 22px;
+            margin-bottom: 14px;
         }
-        ul:hover{
-            background: $bcGradient;
+        ul {
+            
+            .pipe{
+                margin-right: 50px;
+                text-align: left;
+                min-width: 265px;
+            }
+            span.pipeLength{
+                
+                min-width: 85px;
+                margin-right: 0;
+                text-align: right;
+            }
             li{
-                display: inherit;
+                align-items: center;
+                max-width: 550px;
+                padding: 3px;
+                display: flex;
+            }
+            input {
+                font-family: 'Montserrat', sans-serif;
                 position: relative;
+                margin-right: 25px;
+                margin-left: 25px;
+                font-size: 17px; 
+                // min-width: 50px;
+                width: 100px;
+                height: 40px;
+                text-align: center;
+                // max-width: 80px;
+                border-radius: 4px;
+                border: 1px solid $grey;
+                background: $white !important; 
+                outline: none;
+                color: $black; 
+                padding: 1.5px;
             }
+        }
+    }
+
+
+    #output{
+        display: block;
+        width: $widthForList;
+        right: 5px; 
+        top: 0; 
+        
+        #info {
+            margin-top: 50px;
+            li{
+                padding: 15px;
+                margin: 10px 0;
+                background: $white;
+                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+                border-radius: 5px;
+                border-radius: 3px;
+                
+            }
+            .messageOutPipes{
+
+                background: $white;
+                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+                border-radius: 5px;
+                box-sizing: border-box;
+                min-width: $widthForList;
+                border-radius: 3px;
+
+                p{
+                    margin-top: 15px;
+                    padding-left: 15px;
+                    
+                }
+            }
+        }
+        #outField {
+            ul{
+                margin: 10px 0;
+                background: $white;
+                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+                border-radius: 5px;
+                border-radius: 3px;
+                max-width: $widthForList;
+                text-align: center;
+                padding: 3px;
+                li{
+                    display: inherit;
+                    position: relative;
+                }
+            }
+            // ul:hover{
+            //     background: $bcGradient;
+            //     li{
+            //         display: inherit;
+            //         position: relative;
+            //     }
+            // }
         }
     }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="css/reset.css">
@@ -8,30 +8,34 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Доставка труб</title>
     <link rel="stylesheet" href="css/style.css">
-    
-    
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
 </head>
 <body>
-    
-    <script src="vue.js"></script>
-    
-    <div id="inputForm">
-        <p>Введите данные для рассчета:</p>
-        <ul id="list">
-
-        </ul>
+        <div class="right-pos">
+            <div class="custom-select" style="width:200px;">
+                <select onChange="pnVersionSwitch(this)">
+                        <option value="PN12,5">PN12,5</option>
+                        <option value="PN16">PN16</option>
+                        <option value="PN20">PN20</option>
+                        <option value="PN25">PN25</option>
+                </select>
+            </div>
+        </div>
+    <section id="main">
         
-        <button id="click" onclick="clickMessage()">Click</button>
-    </div>
-    <div id="output">
-        <div id="info"></div>
-        <div id = "outField"></div>
-    </div>
-    
-    <script src="index.js"></script>
+        <div id="inputForm">
+            <p>Введите данные для рассчета:</p>
+            <ul id="list">
 
-    
-    <!-- <script src="vuejs.js"></script> -->
-    
+            </ul>
+            
+            <button class="button" id="click">Рассчитать</button>
+        </div>
+        <div id="output">
+            <div id="info"></div>
+            <div id = "outField"></div>
+        </div>
+    </section>
+    <script src="test.js"></script>
 </body>
 </html>
